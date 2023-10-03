@@ -1,4 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
+from models.checkin import Checkin
+from models.checkin_request import CheckinRequest
 from models.user import User
 from services.storage import StorageService
 import os
@@ -31,3 +33,22 @@ def reset(storage_service: StorageService = Depends()) -> str:
         storage_service.create_registration(User(pid=710453084, first_name="Kris", last_name="Jordan"))
         storage_service.create_checkin(710453084)
         return "OK"
+    
+@app.post("/api/checkins")
+def new_checkin(checkin_request: CheckinRequest, storage_service: StorageService = Depends()) -> Checkin:
+    try:
+        return storage_service.create_checkin(checkin_request.pid)
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
+
+@app.get("/api/checkins")
+def list_checkins(storage_service: StorageService = Depends()) -> list[Checkin]:
+    return storage_service.get_checkins()
+
+@app.delete("/api/registrations/{pid}")
+def remove_registration(pid: int, storage_service: StorageService = Depends()) -> str:
+    try:
+        deleted_user = storage_service.delete_registration(pid)
+        return f"{deleted_user.first_name} {deleted_user.last_name} has been deleted"
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))

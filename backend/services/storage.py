@@ -106,3 +106,18 @@ class StorageService:
             List of all checkins."""
         global _checkins
         return _checkins
+    
+    def delete_registration(self, pid: int) -> User:
+        if len(str(pid)) != 9:
+            raise Exception(f"Invalid PID: {pid}")
+        user = self.get_user_by_pid(pid)
+        global _registrations, _checkins
+        checkins_new: list[Checkin] = _checkins
+        if user: 
+            checkins_new = [instance for instance in _checkins if instance.user.pid != user.pid]
+            _checkins = checkins_new
+            temp = user.pid
+            _registrations.pop(user.pid)
+            return temp
+        else:
+            raise Exception(f"User with PID {pid} does not exist.")
