@@ -1,0 +1,11 @@
+<h1>Check-In</h1>
+<div class="home">
+    <p><a routerLink="">Home</a></p>
+</div>
+<form [formGroup]="checkinForm" (ngSubmit)="onSubmit()">
+    <div class="form-element">
+        <label for="pid">PID </label>
+        <input id="pid" type="text" formControlName="pid">
+    </div>
+    <button class="button" type="submit">Submit</button>
+</form>

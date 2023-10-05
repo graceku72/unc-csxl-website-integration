@@ -54,4 +54,5 @@ export class RegistrationService {
 
     return this.http.post<User>("/api/registrations", user);
   }
+
 }
