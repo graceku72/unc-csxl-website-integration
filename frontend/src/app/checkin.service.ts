@@ -15,7 +15,7 @@ import { CheckinRequest } from './checkin_request';
 export class CheckinService {
 
   constructor(private http: HttpClient, private registrationService: RegistrationService) { }
-  getCheckins(): Observable<Checkin[]>{
+  getCheckins(): Observable<Checkin[]> {
     return this.http.get<Checkin[]>("/api/checkins");
   }
 
@@ -23,15 +23,14 @@ export class CheckinService {
     let errors: string[] = [];
 
     if (pid.toString().length !== 9) {
-      errors.push(`Invalid PID: ${pid}`);
+      errors.push(`PID must be 9 digits long`);
     }
 
     if (errors.length > 0) {
       return throwError(() => { return new Error(errors.join("\n")) });
     }
-
+    
     let request: CheckinRequest = {pid}
-
     return this.http.post<CheckinRequest>("/api/checkins", request);
   }
 }

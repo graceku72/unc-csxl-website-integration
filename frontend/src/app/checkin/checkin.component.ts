@@ -7,7 +7,6 @@ import { Checkin } from '../checkin';
 import { CheckinRequest } from '../checkin_request';
 
 
-
 @Component({
   selector: 'app-checkin',
   templateUrl: './checkin.component.html',
