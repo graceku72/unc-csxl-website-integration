@@ -19,7 +19,7 @@ export class CheckinService {
     return this.http.get<Checkin[]>("/api/checkins");
   }
 
-  addCheckin(pid: number): Observable<CheckinRequest> {
+  addCheckin(pid: number): Observable<Checkin> {
     let errors: string[] = [];
 
     if (pid.toString().length !== 9) {
@@ -31,6 +31,6 @@ export class CheckinService {
     }
     
     let request: CheckinRequest = {pid}
-    return this.http.post<CheckinRequest>("/api/checkins", request);
+    return this.http.post<Checkin>("/api/checkins", request);
   }
 }
