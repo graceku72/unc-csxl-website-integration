@@ -6,6 +6,8 @@ import { RegistrationService } from './registration.service';
 import { CheckinComponent } from './checkin/checkin.component';
 import { Checkin } from './checkin';
 import { CheckinRequest } from './checkin_request';
+import { map } from 'rxjs';
+import { isNgTemplate } from '@angular/compiler';
 
 
 
@@ -24,7 +26,15 @@ export class CheckinService {
 
   // }
   getCheckins(): Observable<Checkin[]>{
-    return this.http.get<Checkin[]>("/api/checkins");
+    return this.http.get<Checkin[]>("/api/checkins").pipe(map((x) => {
+      return x.map((checkin) => {
+        return <Checkin>({
+          user: checkin.user,
+          created_at: new Date(checkin.created_at)
+        })
+      })
+    }));
+    
   }
 
   addCheckin(pid: number): Observable<CheckinRequest> {
