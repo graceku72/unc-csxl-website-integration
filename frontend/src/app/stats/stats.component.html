@@ -29,7 +29,7 @@
             <td>{{ checkin.user.pid }}</td>
             <td>{{ checkin.user.first_name}}</td>
             <td>{{ checkin.user.last_name }}</td>
-            <td>{{ checkin.created_at }}
+            <td>{{ checkin.created_at | date:"YYYY/MM/dd '@' hh:mma"}}</td>
         </tr>
     </tbody>
 </table>

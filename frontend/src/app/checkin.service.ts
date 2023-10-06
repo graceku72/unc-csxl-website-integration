@@ -26,7 +26,7 @@ export class CheckinService {
         })
       })
     }));
-
+  }
 
   addCheckin(pid: number): Observable<Checkin> {
     let errors: string[] = [];
