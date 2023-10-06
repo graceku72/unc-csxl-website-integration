@@ -17,14 +17,6 @@ import { isNgTemplate } from '@angular/compiler';
 export class CheckinService {
 
   constructor(private http: HttpClient, private registrationService: RegistrationService) { }
-  // getUser(pid: number): User{
-  //   for (let i = 0; i < this.registrationService.getUsers().length; i++){
-  //     if (user.pid == pid){
-  //       return user;
-  //     }
-  //   }
-
-  // }
   getCheckins(): Observable<Checkin[]>{
     return this.http.get<Checkin[]>("/api/checkins").pipe(map((x) => {
       return x.map((checkin) => {
@@ -34,12 +26,20 @@ export class CheckinService {
         })
       })
     }));
+
+
+  addCheckin(pid: number): Observable<Checkin> {
+    let errors: string[] = [];
+
+    if (pid.toString().length !== 9) {
+      errors.push(`PID must be 9 digits long`);
+    }
+
+    if (errors.length > 0) {
+      return throwError(() => { return new Error(errors.join("\n")) });
+    }
     
-  }
-
-  addCheckin(pid: number): Observable<CheckinRequest> {
     let request: CheckinRequest = {pid}
-
-    return this.http.post<CheckinRequest>("/api/checkins", request);
+    return this.http.post<Checkin>("/api/checkins", request);
   }
 }

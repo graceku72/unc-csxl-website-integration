@@ -5,7 +5,7 @@ import { CheckinService } from '../checkin.service';
 import { Router } from '@angular/router';
 import { Checkin } from '../checkin';
 import { CheckinRequest } from '../checkin_request';
-
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -36,13 +36,15 @@ export class CheckinComponent {
     })
   }
 
-  private onSuccess(request: CheckinRequest): void {
-    window.alert(`Thanks for checking in ${request.pid}`)
+  private onSuccess(request: Checkin): void {
+    window.alert(`Thanks for checking in ${request.user.first_name} ${request.user.last_name}`);
     this.checkinForm.reset();
   }
 
-  private onError(err: Error){
-    if (err.message){
+  private onError(err: Error | HttpErrorResponse){
+    if (err instanceof HttpErrorResponse){
+      window.alert(err.error.detail);
+    } else if (err.message) {
       window.alert(err.message);
     } else {
       window.alert("Unknown error: " + JSON.stringify(err));
