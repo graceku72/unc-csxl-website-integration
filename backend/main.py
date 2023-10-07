@@ -46,9 +46,8 @@ def list_checkins(storage_service: StorageService = Depends()) -> list[Checkin]:
     return storage_service.get_checkins()
 
 @app.delete("/api/registrations/{pid}")
-def remove_registration(pid: int, storage_service: StorageService = Depends()) -> str:
+def remove_registration(pid: int, storage_service: StorageService = Depends()) -> User:
     try:
-        deleted_user = storage_service.delete_registration(pid)
-        return f"{deleted_user.first_name} {deleted_user.last_name} has been deleted"
+        return storage_service.delete_registration(pid)
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))

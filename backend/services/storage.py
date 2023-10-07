@@ -116,7 +116,7 @@ class StorageService:
         if user: 
             checkins_new = [instance for instance in _checkins if instance.user.pid != user.pid]
             _checkins = checkins_new
-            temp = user.pid
+            temp = user
             _registrations.pop(user.pid)
             return temp
         else:
