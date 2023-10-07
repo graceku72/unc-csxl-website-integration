@@ -4,6 +4,8 @@ from models.checkin_request import CheckinRequest
 from models.user import User
 from services.storage import StorageService
 import os
+from static_files import StaticFileMiddleware
+
 
 app = FastAPI()
 
@@ -51,3 +53,5 @@ def remove_registration(pid: int, storage_service: StorageService = Depends()) -
         return storage_service.delete_registration(pid)
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
+    
+app.mount("/", StaticFileMiddleware("../static", "index.html"))
